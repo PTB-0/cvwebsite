@@ -1,0 +1,74 @@
+---
+import { en as t } from "../i18n/en";
+---
+
+<header class="top">
+  <a class="brand" href="#top">{t.name}</a>
+  <nav aria-label={t.nav.label}>
+    <a href="#top" aria-current="page">{t.nav.home}</a>
+    <a href="#work">{t.nav.work}</a>
+  </nav>
+  <span class="lang" lang="en">EN</span>
+</header>
+
+<style>
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+  }
+  .brand {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    color: var(--on-dusk);
+  }
+  .brand:hover {
+    color: #fff;
+  }
+  nav {
+    display: flex;
+    gap: 4px;
+    padding: 6px;
+    border-radius: 999px;
+    background: var(--glass);
+    border: 1px solid var(--glass-edge);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 16px;
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    color: rgba(244, 246, 251, 0.82);
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+  nav a:hover {
+    background: var(--glass-strong);
+    color: #fff;
+  }
+  nav a[aria-current="page"] {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+  }
+  .lang {
+    font-size: 0.875rem;
+    color: var(--on-dusk);
+    min-width: 40px;
+    text-align: right;
+  }
+  @media (max-width: 640px) {
+    nav {
+      order: 3;
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+import Base from "../../layouts/Base.astro";
+import Hero from "../../components/Hero.astro";
+import Work from "../../components/Work.astro";
+import { en as t } from "../../i18n/en";
+---
+
+<Base title={t.title} description={t.description} lang={t.lang}>
+  <Hero />
+  <main>
+    <Work />
+  </main>
+  <footer>
+    <p>{t.footer}</p>
+  </footer>
+</Base>
+
+<style>
+  footer {
+    padding: 128px var(--gutter) 64px;
+  }
+  footer p {
+    max-width: var(--page);
+    margin: 0 auto;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+</style>

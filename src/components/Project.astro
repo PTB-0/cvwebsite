@@ -1,0 +1,175 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Diagram from "./Diagram.astro";
+import { en as t } from "../i18n/en";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+  figure: number;
+}
+
+const { project, figure } = Astro.props;
+const { data } = project;
+const copy = data.en;
+---
+
+<article class="project">
+  <div class="text">
+    <div class="title">
+      <h3>{data.name}</h3>
+      {data.tags.map((tag) => <span class="tag mono">{tag}</span>)}
+    </div>
+    <p class="summary">{copy.summary}</p>
+    <dl>
+      <div class="row">
+        <dt>{t.work.role}</dt>
+        <dd>{copy.role}</dd>
+      </div>
+      {
+        data.stack && (
+          <div class="row">
+            <dt>{t.work.stack}</dt>
+            <dd class="stack">{data.stack}</dd>
+          </div>
+        )
+      }
+      <div class="row">
+        <dt>{t.work.built}</dt>
+        <dd>{copy.built}</dd>
+      </div>
+      <div class="row last">
+        <dt>{t.work.links}</dt>
+        <dd class="links">
+          {data.links.map((l) => <a href={l.href}>{l.label}</a>)}
+          {data.links.length === 0 && copy.linksNote && <span class="muted">{copy.linksNote}</span>}
+        </dd>
+      </div>
+    </dl>
+  </div>
+
+  <figure class="fig">
+    <Diagram kind={data.diagram} />
+    <figcaption>
+      <span class="num mono">{t.work.fig} {figure}</span>
+      <span>{copy.figure}</span>
+    </figcaption>
+  </figure>
+</article>
+
+<style>
+  .project {
+    display: grid;
+    grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
+    gap: 48px 64px;
+    align-items: start;
+    padding-top: 48px;
+    border-top: 1px solid var(--line);
+  }
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+  }
+  h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2rem, 1.6rem + 1.2vw, 2.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+  .tag {
+    padding: 3px 8px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color: var(--muted);
+  }
+  .summary {
+    font-size: 1.125rem;
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+  dl {
+    display: flex;
+    flex-direction: column;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: 16px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+  .row.last {
+    border-bottom: 1px solid var(--line);
+  }
+  dt {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  dd {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  .stack {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+  }
+  .muted {
+    color: var(--muted);
+  }
+
+  .fig {
+    min-width: 0;
+    padding: 36px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+  figcaption {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+  .num {
+    flex: none;
+    color: var(--text);
+  }
+
+  @media (max-width: 960px) {
+    .project {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .text {
+      max-width: 560px;
+    }
+  }
+  @media (max-width: 520px) {
+    .fig {
+      padding: 20px;
+    }
+    .row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2px;
+    }
+  }
+</style>

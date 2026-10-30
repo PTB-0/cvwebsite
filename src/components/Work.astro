@@ -1,0 +1,60 @@
+---
+import { getCollection } from "astro:content";
+import Project from "./Project.astro";
+import { en as t } from "../i18n/en";
+
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="work" id="work" aria-labelledby="work-title">
+  <div class="inner">
+    <div class="head">
+      <h2 id="work-title">{t.work.title}</h2>
+      <p>{t.work.intro}</p>
+    </div>
+    <div class="list">
+      {projects.map((project, i) => <Project project={project} figure={i + 1} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .work {
+    scroll-margin-top: 24px;
+    padding: clamp(80px, 10vw, 128px) var(--gutter) 0;
+    background:
+      radial-gradient(900px 720px at 100% 12%, rgba(79, 140, 255, 0.14), transparent 70%),
+      radial-gradient(900px 720px at 0% 68%, rgba(80, 96, 230, 0.13), transparent 70%);
+  }
+  .inner {
+    max-width: var(--page);
+    margin: 0 auto;
+  }
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 64px;
+    margin-bottom: 64px;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.75rem, 2rem + 2.6vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+  }
+  .head p {
+    max-width: 44ch;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 96px;
+  }
+</style>

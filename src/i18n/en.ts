@@ -1,0 +1,47 @@
+export const en = {
+  lang: "en",
+  name: "Ege Yıldız",
+  title: "Ege Yıldız, cloud and platform engineering",
+  description:
+    "High-school student learning cloud and platform engineering. Selected projects, each with how it was built and how AI took part.",
+  nav: {
+    label: "Sections",
+    home: "Home",
+    work: "Work",
+    method: "Method",
+    skills: "Skills",
+    education: "Education",
+    contact: "Contact",
+  },
+  hero: {
+    tag: "High-school student, class of 2029",
+    title: "Systems I can measure, break, and roll back.",
+    lede: "I’m a high-school student in Türkiye, class of 2029. I design the system, direct AI tools to build it, and check the result with measurements instead of trust.",
+    primary: "See selected work",
+    github: "GitHub: PTB-0",
+    githubHref: "https://github.com/PTB-0",
+    nowTitle: "Right now",
+    nowDate: "Oct 2026",
+    now: [
+      { label: "Building", value: "A self-hosted game-server platform", note: "Pre-beta, not launched" },
+      { label: "Shipping", value: "prompt-router and SecretFix", note: "Two npm packages" },
+      { label: "Learning", value: "Cloud and platform engineering", note: "" },
+    ],
+    facts: [
+      { label: "Exams", value: "AP Computer Science A and Principles: 4 and 4" },
+      { label: "Certificates", value: "CS50x, CS50P, CS50AI" },
+      { label: "Open source", value: "Published on npm, MIT licensed" },
+      { label: "Method", value: "Specify, build, review, measure, gate" },
+    ],
+  },
+  work: {
+    title: "Selected work",
+    intro: "Three projects. Each entry says what it does, what I did, and how AI took part.",
+    role: "My role",
+    stack: "Stack",
+    built: "How it was built",
+    links: "Links",
+    fig: "Fig.",
+  },
+  footer: "Every claim on this site can be checked in a repository, the npm registry, or a certificate.",
+} as const;

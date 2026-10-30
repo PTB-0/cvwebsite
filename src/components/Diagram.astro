@@ -1,0 +1,122 @@
+---
+import { diagrams, draw, TEXT_X, type DiagramKey, type Drawn } from "../lib/diagrams";
+
+interface Props {
+  kind: DiagramKey;
+}
+
+const { kind } = Astro.props;
+const def = diagrams[kind];
+const variants: { name: "desktop" | "mobile"; drawn: Drawn }[] = [
+  { name: "desktop", drawn: draw(def.desktop) },
+  { name: "mobile", drawn: draw(def.mobile) },
+];
+---
+
+{
+  variants.map(({ name, drawn }) => {
+    const marker = `${kind}-${name}-head`;
+    return (
+      <svg
+        class={`d d-${name}`}
+        viewBox={`0 0 ${drawn.width} ${drawn.height}`}
+        width={drawn.width}
+        height={drawn.height}
+        role="img"
+        aria-label={def.label}
+      >
+        <defs>
+          <marker id={marker} orient="auto" markerWidth="5" markerHeight="5" refX="4" refY="2" markerUnits="strokeWidth">
+            <path d="M0 0 L4 2 L0 4 Z" fill="#9aa0b4" />
+          </marker>
+        </defs>
+        {drawn.paths.map((p) => (
+          <path
+            d={p.d}
+            class:list={["edge", { dashed: p.dashed }]}
+            marker-end={p.arrow ? `url(#${marker})` : undefined}
+          />
+        ))}
+        {drawn.nodes.map((n) => (
+          <g>
+            <rect
+              x={n.x}
+              y={n.y}
+              width={n.w}
+              height={n.h}
+              rx="12"
+              class:list={["node", { accent: n.accent, dashed: n.dashed }]}
+            />
+            {n.lines.map((l) => (
+              <text x={n.x + TEXT_X} y={l.y} class={l.kind}>
+                {l.text}
+              </text>
+            ))}
+          </g>
+        ))}
+      </svg>
+    );
+  })
+}
+
+<style>
+  .d {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    overflow: visible;
+  }
+  .d-desktop {
+    max-width: 600px;
+  }
+  .d-mobile {
+    display: none;
+    max-width: 340px;
+  }
+  @media (max-width: 700px) {
+    .d-desktop {
+      display: none;
+    }
+    .d-mobile {
+      display: block;
+    }
+  }
+  .edge {
+    fill: none;
+    stroke: var(--muted);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .edge.dashed {
+    stroke-dasharray: 4 4;
+  }
+  .node {
+    fill: rgba(255, 255, 255, 0.06);
+    stroke: rgba(255, 255, 255, 0.14);
+    stroke-width: 1;
+  }
+  .node.accent {
+    fill: rgba(79, 140, 255, 0.16);
+    stroke: rgba(160, 190, 255, 0.7);
+    filter: drop-shadow(0 0 10px rgba(79, 140, 255, 0.35));
+  }
+  .node.dashed {
+    fill: rgba(255, 255, 255, 0.03);
+    stroke: rgba(230, 232, 239, 0.5);
+    stroke-dasharray: 4 4;
+  }
+  text {
+    font-family: var(--sans);
+  }
+  .title {
+    font-size: 15px;
+    font-weight: 500;
+    fill: var(--text);
+  }
+  .sub {
+    font-size: 13px;
+    fill: var(--muted);
+  }
+</style>
