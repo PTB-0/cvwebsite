@@ -1,0 +1,3 @@
+# Pages carry <meta name="robots" content="noindex"> until the owner turns it off (NOINDEX in src/i18n/index.ts).
+User-agent: *
+Allow: /
