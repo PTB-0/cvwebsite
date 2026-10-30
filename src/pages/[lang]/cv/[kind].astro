@@ -1,0 +1,21 @@
+---
+import { getCollection } from "astro:content";
+import CvLayout from "../../../layouts/CvLayout.astro";
+import CvSheet from "../../../components/CvSheet.astro";
+import { getDict, locales, type Lang } from "../../../i18n";
+
+export function getStaticPaths() {
+  const kinds = ["work", "academic"] as const;
+  return locales.flatMap((lang) => kinds.map((kind) => ({ params: { lang, kind } })));
+}
+
+const lang = Astro.params["lang"] as Lang;
+const kind = Astro.params["kind"] === "academic" ? "academic" : "work";
+const t = getDict(lang);
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+const title = `${t.name}, ${kind === "work" ? t.cv.work : t.cv.academic}`;
+---
+
+<CvLayout title={title} lang={t.lang}>
+  <CvSheet t={t} kind={kind} projects={projects} />
+</CvLayout>

@@ -1,0 +1,239 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { Dict } from "../i18n";
+
+interface Props {
+  t: Dict;
+  kind: "work" | "academic";
+  projects: CollectionEntry<"projects">[];
+}
+
+const { t, kind, projects } = Astro.props;
+const work = kind === "work";
+const email = t.contact.email;
+---
+
+<div class="sheet">
+  <header>
+    <div>
+      <h1>{t.name}</h1>
+      <p class="tag">{t.cv.tagline}</p>
+    </div>
+    <div class="contact">
+      {email && <span>{email}</span>}
+      <span>github.com/PTB-0</span>
+    </div>
+  </header>
+
+  <p class="summary">{t.cv.summary}</p>
+
+  {
+    !work && (
+      <section>
+        <h2>{t.cv.education}</h2>
+        <dl class="rows">
+          {t.education.rows.map((r) => (
+            <div>
+              <dt>{r.kind}</dt>
+              <dd>
+                <b>{r.title}</b> {r.detail}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    )
+  }
+
+  <section>
+    <h2>{t.cv.projects}</h2>
+    <div class="projects">
+      {
+        projects.map((p) => {
+          const c = p.data[t.lang];
+          return (
+            <article>
+              <div class="line">
+                <h3>{p.data.name}</h3>
+                <span class="meta">{c.tags.join(", ")}</span>
+              </div>
+              <p>{c.summary}</p>
+              {work && <p class="role">{c.role}</p>}
+              {work && <p class="built">{c.built}</p>}
+              {work && p.data.stack && <p class="stack">{p.data.stack}</p>}
+            </article>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <section>
+    <h2>{t.cv.skills}</h2>
+    <dl class="rows">
+      {
+        t.skills.groups.map((g) => (
+          <div>
+            <dt>{g.title}</dt>
+            <dd>{g.items}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  {
+    work && (
+      <section>
+        <h2>{t.cv.education}</h2>
+        <dl class="rows">
+          {t.education.rows.map((r) => (
+            <div>
+              <dt>{r.kind}</dt>
+              <dd>
+                <b>{r.title}</b> {r.detail}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    )
+  }
+
+  <p class="foot">{t.footer}</p>
+</div>
+
+<style>
+  .sheet {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto;
+    padding: 11mm 14mm 9mm;
+    overflow: hidden;
+    background: #fff;
+    color: #111827;
+    font-family: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.38;
+  }
+  @media screen {
+    .sheet {
+      margin: 24px auto;
+      box-shadow: 0 2px 24px rgba(0, 0, 0, 0.18);
+    }
+  }
+  h1,
+  h2,
+  h3,
+  p,
+  dl,
+  dd {
+    margin: 0;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12mm;
+    padding-bottom: 4mm;
+    border-bottom: 1.5pt solid #111827;
+  }
+  h1 {
+    font-size: 26pt;
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+  .tag {
+    margin-top: 2mm;
+    font-size: 10.5pt;
+    color: #4b5563;
+  }
+  .contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 9.5pt;
+    color: #4b5563;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .summary {
+    padding: 3.4mm 0;
+    font-size: 10pt;
+    line-height: 1.45;
+    border-bottom: 0.75pt solid #d1d5db;
+  }
+  section {
+    display: grid;
+    grid-template-columns: 26mm minmax(0, 1fr);
+    gap: 6mm;
+    padding: 3.4mm 0;
+    border-bottom: 0.75pt solid #d1d5db;
+  }
+  h2 {
+    font-size: 10.5pt;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .projects {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4mm;
+  }
+  article {
+    break-inside: avoid;
+  }
+  .line {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4mm;
+  }
+  h3 {
+    font-size: 10.5pt;
+    font-weight: 600;
+  }
+  .meta {
+    font-size: 9pt;
+    color: #4b5563;
+  }
+  .role {
+    margin-top: 0.5mm;
+  }
+  .built {
+    margin-top: 0.5mm;
+    color: #4b5563;
+  }
+  .stack {
+    margin-top: 0.8mm;
+    font-family: "Martian Mono", ui-monospace, Consolas, monospace;
+    font-size: 8.8pt;
+    color: #4b5563;
+  }
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: 1mm;
+  }
+  .rows > div {
+    display: grid;
+    grid-template-columns: 30mm minmax(0, 1fr);
+    gap: 4mm;
+  }
+  dt {
+    color: #4b5563;
+  }
+  dd b {
+    font-weight: 600;
+  }
+  .foot {
+    margin-top: auto;
+    padding-top: 3mm;
+    font-size: 9pt;
+    color: #4b5563;
+  }
+</style>
