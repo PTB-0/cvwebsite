@@ -1,0 +1,39 @@
+---
+import type { Dict } from "../i18n";
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+---
+
+<footer>
+  <div class="inner">
+    <span>{t.name}</span>
+    <p>{t.footer}</p>
+  </div>
+</footer>
+
+<style>
+  footer {
+    position: relative;
+    padding: 160px var(--gutter) 64px;
+    background: radial-gradient(1500px 520px at 50% 100%, rgba(127, 169, 255, 0.34), rgba(79, 140, 255, 0.1) 55%, transparent 80%);
+  }
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px 48px;
+    max-width: var(--page);
+    margin: 0 auto;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  p {
+    max-width: 56ch;
+    text-wrap: pretty;
+  }
+</style>

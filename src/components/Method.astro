@@ -1,0 +1,81 @@
+---
+import SectionHead from "./SectionHead.astro";
+import type { Dict } from "../i18n";
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+---
+
+<section class="section method" id="method" aria-labelledby="method-title">
+  <div class="inner">
+    <SectionHead id="method-title" title={t.method.title} intro={t.method.intro} />
+    <ol class="rules">
+      {
+        t.method.rules.map((rule) => (
+          <li class="rule">
+            <h3>{rule.title}</h3>
+            <p class="body">{rule.body}</p>
+            <div class="proof">
+              <span class="mono">
+                {t.method.seenIn} {rule.project}
+              </span>
+              <p>{rule.evidence}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .method {
+    background: radial-gradient(1300px 560px at 50% 12%, rgba(79, 140, 255, 0.12), transparent 70%);
+  }
+  .rules {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .rule {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1.4fr);
+    gap: 16px 48px;
+    padding: 36px 0;
+    border-top: 1px solid var(--line);
+  }
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
+  .body {
+    color: var(--muted);
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+  .proof {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .proof .mono {
+    color: var(--muted);
+  }
+  .proof p {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+  @media (max-width: 900px) {
+    .rule {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+    }
+  }
+</style>

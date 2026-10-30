@@ -36,10 +36,14 @@ export interface Layout {
   fans: DFan[];
 }
 
+/** Per-node text override: first entry is the title, the rest are sub lines. */
+export type TextMap = Record<string, string[]>;
+
 export interface DiagramDef {
   label: string;
   desktop: Layout;
   mobile: Layout;
+  tr: { label: string; desktop: TextMap; mobile: TextMap };
 }
 
 export type DiagramKey = "dloudos" | "prompt-router" | "secretfix";
@@ -116,8 +120,10 @@ function fan(layout: Layout, f: DFan): DrawnPath[] {
   return out;
 }
 
-export function draw(layout: Layout): Drawn {
-  const nodes: DrawnNode[] = layout.nodes.map((n) => {
+export function draw(layout: Layout, texts?: TextMap): Drawn {
+  const nodes: DrawnNode[] = layout.nodes.map((base) => {
+    const override = texts?.[base.id];
+    const n: DNode = override && override[0] !== undefined ? { ...base, title: override[0], sub: override.slice(1) } : base;
     const total = TITLE_LH + SUB_LH * n.sub.length;
     const top = n.y + (n.h - total) / 2;
     const lines: DrawnNode["lines"] = [{ text: n.title, y: top + 15, kind: "title" }];
@@ -182,6 +188,28 @@ const dloudos: DiagramDef = {
     ],
     fans: [],
   },
+  tr: {
+    label:
+      "Basitleştirilmiş sistem şeması: müşteriler bir web sitesine ulaşır, site Pterodactyl çatalı bir paneli çağırır, panel yalıtılmış düğümleri yönetir. Düğümler şifreli uzak yedek gönderir. Yönetici erişimi Cloudflare Zero Trust üzerinden düğümlere gider.",
+    desktop: {
+      cust: ["Müşteriler", "Sunucu sahipleri"],
+      web: ["Web sitesi", "Mağaza ve hesaplar"],
+      panel: ["Panel", "Pterodactyl çatalı"],
+      admin: ["Yönetici", "Yalnız operatör"],
+      zt: ["Zero Trust", "Cloudflare Access"],
+      nodes: ["Düğümler", "Düğüm başına yalıtım"],
+      bak: ["Uzak yedekler", "Şifreli, geri yükleme provalı"],
+    },
+    mobile: {
+      cust: ["Müşteriler", "Sunucu sahipleri"],
+      web: ["Web sitesi", "Mağaza ve", "hesaplar"],
+      panel: ["Panel", "Pterodactyl", "çatalı"],
+      nodes: ["Düğümler", "Düğüm başına", "yalıtım"],
+      zt: ["Zero Trust", "Cloudflare", "Access"],
+      bak: ["Uzak yedekler", "Şifreli, geri", "yükleme provalı"],
+      admin: ["Yönetici", "Yalnız operatör"],
+    },
+  },
 };
 
 const promptRouter: DiagramDef = {
@@ -212,6 +240,24 @@ const promptRouter: DiagramDef = {
     ],
     edges: [{ from: "prompt", to: "router" }],
     fans: [{ from: "router", to: ["a", "b", "local"], dashed: ["local"] }],
+  },
+  tr: {
+    label:
+      "Basitleştirilmiş sistem şeması: bir istem, görev türüne göre arka uç seçen bir yönlendiriciye gider. İki barındırılan model normal hedeflerdir. Kesikli bir yol, API anahtarı yokken kullanılan yerel yedek modele çıkar.",
+    desktop: {
+      prompt: ["İstem", "Herhangi bir görev"],
+      router: ["Yönlendirici", "Göreve göre seçer"],
+      a: ["Arka uç A", "Barındırılan model"],
+      b: ["Arka uç B", "Barındırılan model"],
+      local: ["Yerel yedek", "API anahtarı yoksa"],
+    },
+    mobile: {
+      prompt: ["İstem", "Herhangi bir", "görev"],
+      router: ["Yönlendirici", "Göreve göre", "seçer"],
+      a: ["Arka uç A", "Barındırılan", "model"],
+      b: ["Arka uç B", "Barındırılan", "model"],
+      local: ["Yerel yedek", "API anahtarı", "yoksa"],
+    },
   },
 };
 
@@ -253,6 +299,24 @@ const secretfix: DiagramDef = {
       { from: "fix", to: "chk" },
     ],
     fans: [],
+  },
+  tr: {
+    label:
+      "Basitleştirilmiş akış: kaynak kod bir tespit adımına gider ve rapor üretir. Tespit adımı ayrıca anahtarı ortam değişkenine taşıyan bir düzeltme adımını besler. Son kontrol, düzeltilen dosyanın hâlâ ayrışabildiğini doğrular.",
+    desktop: {
+      src: ["Kaynak", "Depodaki kod"],
+      det: ["Tespit", "Sızan anahtar", "kuralları"],
+      rep: ["Rapor", "Dosya ve satıra", "göre bulgular"],
+      fix: ["Düzelt", "Anahtarı ortam", "değişkenine taşı"],
+      chk: ["Kontrol", "Düzeltilen dosya", "hâlâ ayrışmalı"],
+    },
+    mobile: {
+      src: ["Kaynak", "Depodaki", "kod"],
+      det: ["Tespit", "Sızan anahtar", "kuralları"],
+      rep: ["Rapor", "Dosya ve satıra", "göre bulgular"],
+      fix: ["Düzelt", "Anahtarı ortam", "değişkenine taşı"],
+      chk: ["Kontrol", "Düzeltilen dosya", "hâlâ ayrışmalı"],
+    },
   },
 };
 

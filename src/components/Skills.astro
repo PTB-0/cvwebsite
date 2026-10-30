@@ -1,0 +1,49 @@
+---
+import SectionHead from "./SectionHead.astro";
+import type { Dict } from "../i18n";
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+---
+
+<section class="section" id="skills" aria-labelledby="skills-title">
+  <div class="inner">
+    <SectionHead id="skills-title" title={t.skills.title} intro={t.skills.intro} />
+    <div class="groups">
+      {
+        t.skills.groups.map((g) => (
+          <div class="group">
+            <h3>{g.title}</h3>
+            <p>{g.items}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 48px 64px;
+  }
+  .group {
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  h3 {
+    margin-bottom: 12px;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  p {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+</style>

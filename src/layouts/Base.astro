@@ -1,13 +1,18 @@
 ---
+import "../styles/fonts.css";
 import "../styles/global.css";
+import { NOINDEX, other, type Lang } from "../i18n";
 
 interface Props {
   title: string;
   description: string;
-  lang: string;
+  lang: Lang;
 }
 
 const { title, description, lang } = Astro.props;
+const path = Astro.url.pathname;
+const abs = (p: string) => new URL(p, Astro.site).toString();
+const alt = other(lang);
 ---
 
 <!doctype html>
@@ -18,6 +23,16 @@ const { title, description, lang } = Astro.props;
     <meta name="theme-color" content="#0B0D14" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {NOINDEX && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={abs(path)} />
+    <link rel="alternate" hreflang={lang} href={abs(path)} />
+    <link rel="alternate" hreflang={alt} href={abs(path.replace(`/${lang}/`, `/${alt}/`))} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={abs("/og.png")} />
+    <meta property="og:locale" content={lang === "tr" ? "tr_TR" : "en_US"} />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="preload" href="/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>

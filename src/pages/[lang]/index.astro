@@ -1,0 +1,29 @@
+---
+import Base from "../../layouts/Base.astro";
+import Hero from "../../components/Hero.astro";
+import Work from "../../components/Work.astro";
+import Method from "../../components/Method.astro";
+import Skills from "../../components/Skills.astro";
+import Education from "../../components/Education.astro";
+import Contact from "../../components/Contact.astro";
+import Footer from "../../components/Footer.astro";
+import { getDict, locales, type Lang } from "../../i18n";
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const t = getDict(Astro.params["lang"] as Lang);
+---
+
+<Base title={t.title} description={t.description} lang={t.lang}>
+  <Hero t={t} />
+  <main>
+    <Work t={t} />
+    <Method t={t} />
+    <Skills t={t} />
+    <Education t={t} />
+    <Contact t={t} />
+  </main>
+  <Footer t={t} />
+</Base>

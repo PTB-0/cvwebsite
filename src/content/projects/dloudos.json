@@ -2,14 +2,22 @@
   "order": 1,
   "name": "Dloudos",
   "diagram": "dloudos",
-  "tags": ["Pre-beta", "Self-hosted"],
   "stack": "TypeScript, Next.js, Prisma, Pterodactyl, Cloudflare Zero Trust, PM2",
   "links": [],
   "en": {
+    "tags": ["Pre-beta", "Self-hosted"],
     "summary": "A game-server hosting platform built on a Pterodactyl fork. I added per-node isolation, Zero Trust admin access, and encrypted offsite backups that are proven by restore rehearsals.",
     "role": "Product owner and architect. I set scope, security and rollback gates, and decide what is safe to ship.",
     "built": "With Claude Code: about three in four commits are co-authored by it. I write the specs and the gates, and I measure before accepting an agent’s finding. Several were refuted that way.",
     "figure": "Simplified design diagram, not a live system map. Hostnames and network layout are left out on purpose.",
     "linksNote": "No public repository yet."
+  },
+  "tr": {
+    "tags": ["Beta öncesi", "Kendi sunucumda"],
+    "summary": "Pterodactyl çatalı üzerine kurulu bir oyun sunucusu barındırma platformu. Düğüm başına yalıtım, Zero Trust yönetici erişimi ve geri yükleme provalarıyla kanıtlanan şifreli uzak yedekler ekledim.",
+    "role": "Ürün sahibi ve mimar. Kapsamı, güvenlik ve geri alma kapılarını ben belirlerim; neyin yayına çıkabileceğine ben karar veririm.",
+    "built": "Claude Code ile: commit’lerin yaklaşık dörtte üçü onunla birlikte yazıldı. Spesifikasyonları ve kapıları ben yazarım; bir ajanın bulgusunu kabul etmeden önce ölçerim. Birkaçı bu yolla çürütüldü.",
+    "figure": "Basitleştirilmiş tasarım şeması, canlı sistem haritası değil. Ana makine adları ve ağ düzeni bilerek dışarıda bırakıldı.",
+    "linksNote": "Henüz herkese açık bir depo yok."
   }
 }

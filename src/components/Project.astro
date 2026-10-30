@@ -1,23 +1,24 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import Diagram from "./Diagram.astro";
-import { en as t } from "../i18n/en";
+import type { Dict } from "../i18n";
 
 interface Props {
   project: CollectionEntry<"projects">;
   figure: number;
+  t: Dict;
 }
 
-const { project, figure } = Astro.props;
+const { project, figure, t } = Astro.props;
 const { data } = project;
-const copy = data.en;
+const copy = data[t.lang];
 ---
 
 <article class="project">
   <div class="text">
     <div class="title">
       <h3>{data.name}</h3>
-      {data.tags.map((tag) => <span class="tag mono">{tag}</span>)}
+      {copy.tags.map((tag) => <span class="tag mono">{tag}</span>)}
     </div>
     <p class="summary">{copy.summary}</p>
     <dl>
@@ -40,7 +41,7 @@ const copy = data.en;
       <div class="row last">
         <dt>{t.work.links}</dt>
         <dd class="links">
-          {data.links.map((l) => <a href={l.href}>{l.label}</a>)}
+          {data.links.map((l) => <a href={l.href}>{l[t.lang]}</a>)}
           {data.links.length === 0 && copy.linksNote && <span class="muted">{copy.linksNote}</span>}
         </dd>
       </div>
@@ -48,7 +49,7 @@ const copy = data.en;
   </div>
 
   <figure class="fig">
-    <Diagram kind={data.diagram} />
+    <Diagram kind={data.diagram} lang={t.lang} />
     <figcaption>
       <span class="num mono">{t.work.fig} {figure}</span>
       <span>{copy.figure}</span>

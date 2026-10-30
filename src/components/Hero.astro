@@ -1,6 +1,12 @@
 ---
 import Header from "./Header.astro";
-import { en as t } from "../i18n/en";
+import type { Dict } from "../i18n";
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
 ---
 
 <div class="hero" id="top">
@@ -15,7 +21,7 @@ import { en as t } from "../i18n/en";
     <i class="reeds"></i>
   </div>
 
-  <Header />
+  <Header t={t} />
 
   <section class="body" aria-labelledby="hero-title">
     <div class="copy">
@@ -159,7 +165,7 @@ import { en as t } from "../i18n/en";
     font-family: var(--serif);
     font-weight: 400;
     font-size: clamp(3.25rem, 1.5rem + 6vw, 6.75rem);
-    line-height: 1.02;
+    line-height: 1.06;
     letter-spacing: -0.02em;
     text-wrap: balance;
   }

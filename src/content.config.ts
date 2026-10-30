@@ -3,6 +3,7 @@ import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
 const copy = z.object({
+  tags: z.array(z.string()),
   summary: z.string(),
   role: z.string(),
   built: z.string(),
@@ -16,11 +17,10 @@ const projects = defineCollection({
     order: z.number().int(),
     name: z.string(),
     diagram: z.enum(["dloudos", "prompt-router", "secretfix"]),
-    tags: z.array(z.string()),
     stack: z.string().optional(),
-    links: z.array(z.object({ label: z.string(), href: z.string() })),
+    links: z.array(z.object({ en: z.string(), tr: z.string(), href: z.string() })),
     en: copy,
-    tr: copy.optional(),
+    tr: copy,
   }),
 });
 

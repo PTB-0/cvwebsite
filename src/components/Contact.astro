@@ -1,0 +1,107 @@
+---
+import type { Dict } from "../i18n";
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+const c = t.contact;
+const pdf = (kind: "work" | "academic") => `/cv/ege-yildiz-cv-${kind}-${t.lang}.pdf`;
+---
+
+<section class="section contact" id="contact" aria-labelledby="contact-title">
+  <div class="inner">
+    <div class="grid">
+      <div class="lead">
+        <h2 id="contact-title">{c.title}</h2>
+        <p>{c.intro}</p>
+      </div>
+      <dl>
+        {
+          c.email && (
+            <div class="row">
+              <dt>{c.emailLabel}</dt>
+              <dd>
+                <a href={`mailto:${c.email}`}>{c.email}</a>
+              </dd>
+            </div>
+          )
+        }
+        <div class="row">
+          <dt>GitHub</dt>
+          <dd><a href={c.githubHref}>{c.github}</a></dd>
+        </div>
+        <div class="row last">
+          <dt>{c.cv}</dt>
+          <dd class="cvs">
+            <a href={pdf("work")}>{c.cvWork}</a>
+            <a href={pdf("academic")}>{c.cvAcademic}</a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px 96px;
+    align-items: flex-start;
+    padding-top: 48px;
+    border-top: 1px solid var(--line);
+  }
+  .lead {
+    flex: 1 1 420px;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.75rem, 2rem + 2.6vw, 4rem);
+    line-height: 1.06;
+    letter-spacing: -0.015em;
+  }
+  .lead p {
+    font-size: 1.1875rem;
+    line-height: 1.6;
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+  dl {
+    flex: 1 1 380px;
+    display: flex;
+    flex-direction: column;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    align-items: baseline;
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+  }
+  .row.last {
+    border-bottom: 1px solid var(--line);
+  }
+  dt {
+    flex: 0 0 96px;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  dd {
+    flex: 1 1 200px;
+    margin: 0;
+    font-size: 1.125rem;
+  }
+  .cvs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+  }
+</style>

@@ -2,16 +2,23 @@
   "order": 2,
   "name": "prompt-router",
   "diagram": "prompt-router",
-  "tags": ["npm", "MIT"],
   "stack": "TypeScript, Node.js",
   "links": [
-    { "label": "npm", "href": "#" },
-    { "label": "Source", "href": "#" }
+    { "en": "npm", "tr": "npm", "href": "#" },
+    { "en": "Source", "tr": "Kaynak", "href": "#" }
   ],
   "en": {
+    "tags": ["npm", "MIT"],
     "summary": "A package that routes a prompt to the backend that fits the task, and falls back to a local model when no API key is available.",
     "role": "Maintainer. 61 of the 72 commits are mine. Seven releases are on npm, with CI on GitHub.",
     "built": "The backend-registry refactor ran as reviewed agent tasks. Sixteen task reviews passed it. The final whole-branch review found a critical regression: a documented fallback had silently broken.",
     "figure": "Simplified design diagram. The dashed path is the degradation route that the final review found broken."
+  },
+  "tr": {
+    "tags": ["npm", "MIT"],
+    "summary": "Bir istemi göreve uygun arka uca yönlendiren ve API anahtarı yoksa yerel modele düşen bir paket.",
+    "role": "Bakımcı. 72 commit’in 61’i benim. npm’de yedi sürüm var, GitHub’da CI çalışıyor.",
+    "built": "Arka uç kayıt defteri yeniden yapılandırması, gözden geçirilen ajan görevleri olarak yürütüldü. On altı görev incelemesi geçti. Son tüm-dal incelemesi kritik bir gerilemeyi buldu: belgelenmiş bir yedek yol sessizce bozulmuştu.",
+    "figure": "Basitleştirilmiş tasarım şeması. Kesikli yol, son incelemenin bozuk bulduğu düşüş rotasıdır."
   }
 }

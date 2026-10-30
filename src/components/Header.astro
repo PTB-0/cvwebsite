@@ -1,14 +1,28 @@
 ---
-import { en as t } from "../i18n/en";
+import { other, type Dict } from "../i18n";
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+const nav = [
+  { href: "#work", label: t.nav.work },
+  { href: "#method", label: t.nav.method },
+  { href: "#skills", label: t.nav.skills },
+  { href: "#education", label: t.nav.education },
+  { href: "#contact", label: t.nav.contact },
+];
+const alt = other(t.lang);
 ---
 
 <header class="top">
   <a class="brand" href="#top">{t.name}</a>
   <nav aria-label={t.nav.label}>
     <a href="#top" aria-current="page">{t.nav.home}</a>
-    <a href="#work">{t.nav.work}</a>
+    {nav.map((item) => <a href={item.href}>{item.label}</a>)}
   </nav>
-  <span class="lang" lang="en">EN</span>
+  <a class="lang" href={`/${alt}/`} lang={alt} hreflang={alt}>{t.switchLabel}</a>
 </header>
 
 <style>
@@ -31,9 +45,11 @@ import { en as t } from "../i18n/en";
   }
   nav {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 4px;
     padding: 6px;
-    border-radius: 999px;
+    border-radius: 28px;
     background: var(--glass);
     border: 1px solid var(--glass-edge);
     backdrop-filter: blur(20px);
@@ -59,16 +75,28 @@ import { en as t } from "../i18n/en";
     color: #fff;
   }
   .lang {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: 999px;
     font-size: 0.875rem;
     color: var(--on-dusk);
-    min-width: 40px;
-    text-align: right;
+    text-decoration: none;
+    background: var(--glass);
+    border: 1px solid var(--glass-edge);
+    transition: background-color 150ms ease;
   }
-  @media (max-width: 640px) {
+  .lang:hover {
+    background: var(--glass-strong);
+    color: #fff;
+  }
+  @media (max-width: 760px) {
     nav {
       order: 3;
       width: 100%;
-      justify-content: center;
     }
   }
 </style>

@@ -1,0 +1,59 @@
+---
+import SectionHead from "./SectionHead.astro";
+import type { Dict } from "../i18n";
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+---
+
+<section class="section" id="education" aria-labelledby="education-title">
+  <div class="inner">
+    <SectionHead id="education-title" title={t.education.title} intro={t.education.intro} />
+    <ul class="rows">
+      {
+        t.education.rows.map((r) => (
+          <li class="row">
+            <span class="kind mono">{r.kind}</span>
+            <span class="title">{r.title}</span>
+            <span class="detail">{r.detail}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .rows {
+    border-bottom: 1px solid var(--line);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1.2fr) minmax(0, 1.4fr);
+    gap: 8px 48px;
+    align-items: baseline;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+  }
+  .kind {
+    color: var(--muted);
+  }
+  .title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .detail {
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  @media (max-width: 760px) {
+    .row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 4px;
+    }
+  }
+</style>

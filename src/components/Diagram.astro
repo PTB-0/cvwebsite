@@ -1,15 +1,19 @@
 ---
 import { diagrams, draw, TEXT_X, type DiagramKey, type Drawn } from "../lib/diagrams";
+import type { Lang } from "../i18n";
 
 interface Props {
   kind: DiagramKey;
+  lang: Lang;
 }
 
-const { kind } = Astro.props;
+const { kind, lang } = Astro.props;
 const def = diagrams[kind];
+const isTr = lang === "tr";
+const label = isTr ? def.tr.label : def.label;
 const variants: { name: "desktop" | "mobile"; drawn: Drawn }[] = [
-  { name: "desktop", drawn: draw(def.desktop) },
-  { name: "mobile", drawn: draw(def.mobile) },
+  { name: "desktop", drawn: draw(def.desktop, isTr ? def.tr.desktop : undefined) },
+  { name: "mobile", drawn: draw(def.mobile, isTr ? def.tr.mobile : undefined) },
 ];
 ---
 
@@ -23,7 +27,7 @@ const variants: { name: "desktop" | "mobile"; drawn: Drawn }[] = [
         width={drawn.width}
         height={drawn.height}
         role="img"
-        aria-label={def.label}
+        aria-label={label}
       >
         <defs>
           <marker id={marker} orient="auto" markerWidth="5" markerHeight="5" refX="4" refY="2" markerUnits="strokeWidth">
