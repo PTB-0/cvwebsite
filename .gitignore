@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+.claude/
+.playwright-mcp/
+shots/
+# internal planning material, never public
+docs/
+design/
